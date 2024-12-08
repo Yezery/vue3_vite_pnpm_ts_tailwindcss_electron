@@ -1,0 +1,94 @@
+{
+  "name": "electron-vue3-ts-vite",
+  "private": true,
+  "version": "0.0.0",
+  "main": "dist-electron/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && rimraf dist-electron && vite build && electron-builder",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
+    "@types/node": "^22.10.1",
+    "pinia": "^2.3.0",
+    "vue": "^3.5.13",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.20",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-devtools-installer": "^3.2.0",
+    "postcss": "^8.4.49",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^3.4.16",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.1",
+    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "vue-tsc": "^2.1.10"
+  },
+  "build": {
+    "appId": "com.electron.desktop",
+    "productName": "electron",
+    "asar": true,
+    "copyright": "Copyright © 2022 electron",
+    "directories": {
+      "output": "release/${version}"
+    },
+    "files": [
+      "./dist",
+      "./package.json",
+      "./dist-electron"
+    ],
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "public/timg.ico",
+      "uninstallerIcon": "public/timg.ico",
+      "installerHeader": "public/timg.ico",
+      "installerHeaderIcon": "public/timg.ico",
+      "installerSidebar": "public/installerSiddebar.bmp",
+      "uninstallerSidebar": "public/uninstallerSiddebar.bmp",
+      "uninstallDisplayName": "${productName}${version}",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TestApp",
+      "include": "script/installer.nsi",
+      "script": "script/installer.nsi",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true,
+      "menuCategory": false
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://127.0.0.1:8080"
+      }
+    ],
+    "releaseInfo": {
+      "releaseNotes": "版本更新的具体内容"
+    }
+  }
+}
