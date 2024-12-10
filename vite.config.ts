@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import electron from 'vite-plugin-electron/simple'
 import pkg from './package.json'
 import { fileURLToPath, URL } from 'node:url'
+import renderer from 'vite-plugin-electron-renderer'
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   fs.rmSync('dist-electron', { recursive: true, force: true })
@@ -60,6 +61,14 @@ export default defineConfig(({ command }) => {
         // If you want use Node.js in Renderer process, the `nodeIntegration` needs to be enabled in the Main process.
         // See 👉 https://github.com/electron-vite/vite-plugin-electron-renderer
         renderer: {},
+      }),
+      renderer({
+        resolve: {
+          // C/C++ modules must be pre-bundle
+          serialport: { type: 'cjs' },
+          // `esm` modules only if Vite does not pre-bundle them correctly
+          got: { type: 'esm' },
+        },
       }),
     ],
     server: process.env.VSCODE_DEBUG && (() => {
